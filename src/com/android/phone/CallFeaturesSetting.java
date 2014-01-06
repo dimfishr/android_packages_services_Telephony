@@ -344,6 +344,7 @@ public class CallFeaturesSetting extends PreferenceActivity
     private CheckBoxPreference mVoicemailNotificationVibrate;
     private SipSharedPreferences mSipSharedPreferences;
     private PreferenceScreen mButtonBlacklist;
+    private ListPreference mFlipAction;
     private CheckBoxPreference mEnableForwardLookup;
     private CheckBoxPreference mEnablePeopleLookup;
     private CheckBoxPreference mEnableReverseLookup;
@@ -372,6 +373,8 @@ public class CallFeaturesSetting extends PreferenceActivity
             CommandsInterface.CF_REASON_NO_REPLY,
             CommandsInterface.CF_REASON_NOT_REACHABLE
     };
+
+    private static final CharSequence FLIP_ACTION_KEY = "flip_action";
 
     private class VoiceMailProviderSettings {
         /**
@@ -707,6 +710,11 @@ public class CallFeaturesSetting extends PreferenceActivity
             }
         } else if (preference == mButtonSipCallOptions) {
             handleSipCallOptionsChange(objValue);
+        } else if (preference == mFlipAction) {
+            int i = Integer.parseInt((String) objValue);
+            Settings.System.putInt(mPhone.getContext().getContentResolver(), Settings.System.FLIP_ACTION_KEY,
+                    i);
+            updateFlipActionSummary((String) objValue);
         } else if (preference == mEnableForwardLookup
                 || preference == mEnablePeopleLookup
                 || preference == mEnableReverseLookup) {
@@ -725,6 +733,14 @@ public class CallFeaturesSetting extends PreferenceActivity
         }
         // always let the preference setting proceed.
         return true;
+    }
+
+    private void updateFlipActionSummary(String action) {
+        int i = Integer.parseInt(action);
+        if (mFlipAction != null) {
+            String[] summaries = getResources().getStringArray(R.array.flip_action_summary_entries);
+            mFlipAction.setSummary(getString(R.string.flip_action_summary, summaries[i]));
+        }
     }
 
     @Override
@@ -1661,6 +1677,7 @@ public class CallFeaturesSetting extends PreferenceActivity
         mT9SearchInputLocale = (ListPreference) findPreference(BUTTON_T9_SEARCH_INPUT_LOCALE);
         mButtonProximity = (CheckBoxPreference) findPreference(BUTTON_PROXIMITY_KEY);
         mIPPrefix = (PreferenceScreen) findPreference(BUTTON_IPPREFIX_KEY);
+        mFlipAction = (ListPreference) findPreference(FLIP_ACTION_KEY);
 
         mCallRecordingFormat = (ListPreference) findPreference(CALL_RECORDING_FORMAT);
 
@@ -1713,6 +1730,13 @@ public class CallFeaturesSetting extends PreferenceActivity
             if (getResources().getBoolean(R.bool.tty_enabled)) {
                 mButtonTTY.setOnPreferenceChangeListener(this);
             }
+        }
+
+        if (mFlipAction != null) {
+            mFlipAction.setOnPreferenceChangeListener(this);
+            int flipAction = Settings.System.getInt(mPhone.getContext().getContentResolver(),
+                    Settings.System.FLIP_ACTION_KEY, 0);
+            mFlipAction.setValue(Integer.toString(flipAction));
         }
 
         if (mButtonNoiseSuppression != null) {
@@ -1887,6 +1911,12 @@ public class CallFeaturesSetting extends PreferenceActivity
             updatePreferredTtyModeSummary(settingsTtyMode);
         }
 
+        if (mFlipAction != null) {
+            int flipAction = Settings.System.getInt(getContentResolver(),
+                    Settings.System.FLIP_ACTION_KEY, 0);
+            mFlipAction.setValue(Integer.toString(flipAction));
+            updateFlipActionSummary(mFlipAction.getValue());
+        }
 
         if (mButtonProximity != null) {
             boolean checked = Settings.System.getInt(getContentResolver(),
