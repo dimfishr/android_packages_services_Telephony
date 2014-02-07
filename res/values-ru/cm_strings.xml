@@ -17,6 +17,27 @@
      limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <!-- Call UI in background -->
+  <string name="bg_incall">Входящий вызов в фоне</string>
+  <string name="bg_incall_summary">Когда экран включен, входящий вызов будет показан в строке уведомлений</string>
+
+  <!-- Setting title for the flip action setting. -->
+  <string name="flip_action_title">Действие при перевороте</string>
+
+  <!-- Dialog title of the flip action setting. -->
+  <string name="flip_action_dialog_title">При перевороте\u2026</string>
+
+  <!-- Setting summary for the flip action setting. -->
+  <string name="flip_action_summary">При перевороте устройства <xliff:g id="action">%s</xliff:g></string>
+
+  <!-- Values for flip action array entries -->
+  <string name="entry_do_nothing">Ничего не делать</string>
+  <string name="entry_mute_ringer">Включить режим "без звука"</string>
+  <string name="entry_dismiss_call">Отклонить вызов</string>
+  <string name="summary_do_nothing">ничего не делать</string>
+  <string name="summary_mute_ringer">включить режим "без звука"</string>
+  <string name="summary_dismiss_call">отклонить вызов</string>
+
   <string name="call_notif_unconditionalCF">Включена безусловная переадресация вызова</string>
   <string name="call_notif_conditionalCF">Включена условная переадресация вызова</string>
   <string name="call_notif_MOcall_forwarding">Исходящий вызов переадресован</string>
