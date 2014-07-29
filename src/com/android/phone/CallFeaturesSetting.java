@@ -187,8 +187,6 @@ public class CallFeaturesSetting extends PreferenceActivity
     private static final String BUTTON_DTMF_KEY        = "button_dtmf_settings";
     private static final String BUTTON_RETRY_KEY       = "button_auto_retry_key";
 
-    private static final String BUTTON_INCOMING_CALL_STYLE = "button_incoming_call_style";
-
     private static final String BUTTON_PROXIMITY_KEY   = "button_proximity_key";
     private static final String BUTTON_IPPREFIX_KEY = "button_ipprefix_key";
     private static final String BUTTON_EMERGENCY_CALL_KEY = "emergency_call_list";
@@ -330,7 +328,6 @@ public class CallFeaturesSetting extends PreferenceActivity
     private DefaultRingtonePreference mRingtonePreference;
     private PreferenceScreen mEmergencyCall;
     protected CheckBoxPreference mVibrateWhenRinging;
-    private ListPreference mIncomingCallStyle;
     /** Whether dialpad plays DTMF tone or not. */
     private CheckBoxPreference mPlayDtmfTone;
     private CheckBoxPreference mButtonAutoRetry;
@@ -669,10 +666,6 @@ public class CallFeaturesSetting extends PreferenceActivity
             int index = mButtonDTMF.findIndexOfValue((String) objValue);
             Settings.System.putInt(mPhone.getContext().getContentResolver(),
                     Settings.System.DTMF_TONE_TYPE_WHEN_DIALING, index);
-        } else if (preference == mIncomingCallStyle) {
-            int index = mIncomingCallStyle.findIndexOfValue((String) objValue);
-            Settings.System.putInt(mPhone.getContext().getContentResolver(),
-                    Settings.System.INCOMING_CALL_STYLE, index);
         } else if (preference == mButtonTTY) {
             handleTTYChange(preference, objValue);
         } else if (preference == mButtonProximity) {
@@ -1666,7 +1659,6 @@ public class CallFeaturesSetting extends PreferenceActivity
 
         mButtonBlacklist = (PreferenceScreen) findPreference(BUTTON_BLACKLIST);
         mT9SearchInputLocale = (ListPreference) findPreference(BUTTON_T9_SEARCH_INPUT_LOCALE);
-        mIncomingCallStyle = (ListPreference) findPreference(BUTTON_INCOMING_CALL_STYLE);
         mButtonProximity = (CheckBoxPreference) findPreference(BUTTON_PROXIMITY_KEY);
         mIPPrefix = (PreferenceScreen) findPreference(BUTTON_IPPREFIX_KEY);
 
@@ -1874,14 +1866,6 @@ public class CallFeaturesSetting extends PreferenceActivity
             int dtmf = Settings.System.getInt(getContentResolver(),
                     Settings.System.DTMF_TONE_TYPE_WHEN_DIALING, Constants.DTMF_TONE_TYPE_NORMAL);
             mButtonDTMF.setValueIndex(dtmf);
-        }
-
-        if (mIncomingCallStyle != null) {
-            int style = Settings.System.getInt(getContentResolver(),
-                    Settings.System.INCOMING_CALL_STYLE,
-                    Settings.System.INCOMING_CALL_STYLE_FULLSCREEN_PHOTO);
-            mIncomingCallStyle.setOnPreferenceChangeListener(this);
-            mIncomingCallStyle.setValueIndex(style);
         }
 
         if (mButtonAutoRetry != null) {

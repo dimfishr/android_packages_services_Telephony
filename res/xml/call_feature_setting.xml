@@ -46,6 +46,13 @@
             android:defaultValue="false" />
     </PreferenceCategory>
 
+    <PreferenceScreen
+        android:key="button_ipprefix_key"
+        android:title="@string/ipcall_sub_title"
+        android:summary="@string/ipcall_sub_summery"
+        android:persistent="false">
+    </PreferenceScreen>
+
   <PreferenceCategory
       android:title="@string/incall_vibration">
 
@@ -218,14 +225,6 @@
         android:summary="@string/ipcall_sub_summery"
         android:persistent="false">
     </PreferenceScreen>
-
-  <ListPreference
-      android:key="button_incoming_call_style"
-      android:title="@string/incoming_call_style_title"
-      android:summary="%s"
-      android:entries="@array/incoming_call_style_entries"
-      android:entryValues="@array/incoming_call_style_values"
-      android:persistent="false" />
 
   <CheckBoxPreference
       android:key="button_play_dtmf_tone"
